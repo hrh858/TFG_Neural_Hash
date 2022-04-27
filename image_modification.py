@@ -38,23 +38,23 @@ MODIFICATIONS = [
     },
     {
         "method": "blur",
+        "size": 1
+    },
+    {
+        "method": "blur",
         "size": 2
     },
     {
         "method": "blur",
+        "size": 3
+    },
+    {
+        "method": "blur",
+        "size": 4
+    },
+    {
+        "method": "blur",
         "size": 5
-    },
-    {
-        "method": "blur",
-        "size": 8
-    },
-    {
-        "method": "blur",
-        "size": 10
-    },
-    {
-        "method": "blur",
-        "size": 15
     },
     {
         "method": "shift",
@@ -128,7 +128,7 @@ def generate_modifications(images, transformations):
                 
             modifications.append(generated_image)
         
-        generated_images[i] = np.array(modifications, dtype=np.int64)
+        generated_images[i] = np.array(modifications, dtype=np.uint8)
     
     return generated_images
         
