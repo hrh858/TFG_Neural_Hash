@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from matplotlib import pyplot as plt
 
 def load_mnist(path="data/mnist/train.csv"):
     df = pd.read_csv(path)

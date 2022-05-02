@@ -1,21 +1,36 @@
 import numpy as np
+import pdb
 
-def generate_pairs(original_images, modified_images):
+from image_modification import modify_image
+
+def generate_transformations(images, transformations):
+    transformed_images = []
+    for image in images:
+        t = []
+        for transformation in transformations:
+            t.append(modify_image(image, transformation))
+        transformed_images.append(t)
+
+def generate_pairs(original_images, transformed_images):
     positive_pairs = []
     negative_pairs = []
 
-    for img_idx in range(original_images.shape[0]):
-        original_image = original_images[img_idx]
-        for modified_image in modified_images[img_idx]:
-            positive_pairs.append([original_image, modified_image])
+    for idx in range(original_images.shape[0]):
+        or_im = original_images[idx]
+        trans_ims = transformed_images[idx]
+        for trans_im in trans_ims:
 
-            distinct_img_idx = -1
-            while distinct_img_idx < 0 or distinct_img_idx == img_idx: 
-                distinct_img_idx = np.random.randint(0, original_images.shape[0])
-            distinct_image = original_images[distinct_img_idx]
-            negative_pairs.append([original_image, distinct_image])
+            rndm_idx = np.random.randint(0, original_images.shape[0])
+            while rndm_idx == idx: 
+                rndm_idx = np.random.randint(0, original_images.shape[0])
+            rndm_im_for_neg_pair = original_images[rndm_idx]
 
-    positive_pairs_arr = np.array(positive_pairs, dtype=np.float64) / 255.0
-    negative_pairs_arr = np.array(negative_pairs, dtype=np.float64) / 255.0
+            positive_pairs.append([or_im, trans_im])
+            negative_pairs.append([or_im, rndm_im_for_neg_pair])
 
-    return positive_pairs_arr, negative_pairs_arr
+    pdb.set_trace()
+
+    return (
+        np.array(positive_pairs, dtype=np.float64),
+        np.array(negative_pairs, dtype=np.float64)
+    )
