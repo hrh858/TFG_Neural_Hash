@@ -12,13 +12,11 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.datasets.cifar10 import load_data
 import argparse
 import tensorflow as tf
-import pdb
 
 gpu = len(tf.config.list_physical_devices('GPU'))>0
 print("GPU is", "available" if gpu else "NOT AVAILABLE")
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--load_train', action=argparse.BooleanOptionalAction)
 parser.add_argument('--show_model_summary', action=argparse.BooleanOptionalAction)
 parser.add_argument('--plot_pairs', action=argparse.BooleanOptionalAction)
 args = parser.parse_args()
@@ -88,11 +86,15 @@ with tf.device(tf.DeviceSpec(device_type="GPU", device_index=0)):
         [x_train[:,0], x_train[:,1]], y_train[:],
         validation_data=([x_test[:,0], x_test[:,1]], y_test[:]),
         batch_size=64,
-        epochs=50,
+        epochs=100,
         workers=12,
     )
 
 plot_curves(history.history['loss'], history.history['val_loss'], 'Loss')
 plot_curves(history.history['accuracy'], history.history['val_accuracy'], 'Accuracy')
 
-model.save("output/contrastive_siamese_model")
+np.save("output/data/original", original_images)
+np.save("output/data/modified", modified_images)
+np.save("output/data/test", x_test)
+np.save("output/data/train", x_train)
+model.save("output/contrastive_siamese_model.h5")

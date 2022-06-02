@@ -1,5 +1,4 @@
 import numpy as np
-import pdb
 
 from image_modification import modify_image
 
@@ -27,8 +26,6 @@ def generate_pairs(original_images, transformed_images):
 
             positive_pairs.append([or_im, trans_im])
             negative_pairs.append([or_im, rndm_im_for_neg_pair])
-
-    pdb.set_trace()
 
     return (
         np.array(positive_pairs, dtype=np.float64),
